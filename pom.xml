@@ -8,7 +8,7 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>workshop.k8s.springai</groupId>
+	<groupId>workshop.springai</groupId>
 	<artifactId>talent-arena</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>talent-arena</name>
