@@ -38,8 +38,8 @@ public class ChatClientController {
         log.info("Chatting Memory with message: {}", message);
 
         return chatClient.prompt()
-                .user(message)
                 .advisors(new MessageChatMemoryAdvisor(chatMemory))
+                .user(message)
                 .call()
                 .content();
     }
