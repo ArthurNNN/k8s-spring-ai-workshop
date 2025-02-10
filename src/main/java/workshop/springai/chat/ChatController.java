@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-public class ChatClientController {
+public class ChatController {
 
     private final ChatClient chatClient;
 
     @Autowired
-    public ChatClientController(ChatClient chatClient) {
+    public ChatController(ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
