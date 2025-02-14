@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-public class ChatController {
+public class ChatMemoryController {
 
     private final ChatClient chatClient;
 
     @Autowired
-    public ChatController(@Qualifier("chatClient") ChatClient chatClient) {
+    public ChatMemoryController(@Qualifier("chatClientWithMemory") ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
-    @GetMapping(value = "/chat", produces = "text/plain", consumes = "text/plain")
+    @GetMapping(value = "/chat/memory", produces = "text/plain", consumes = "text/plain")
     String chat(@RequestBody String message) {
-        log.info("Chat with message: {}", message);
+        log.info("Chat Memory with message: {}", message);
 
         return chatClient.prompt()
                 .user(message)

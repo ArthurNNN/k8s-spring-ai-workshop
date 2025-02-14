@@ -16,8 +16,16 @@ public class ChatClientConfig {
         return new InMemoryChatMemory();
     }
 
-    @Bean
+    @Bean(name = "chatClient")
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory) {
+        return chatClientBuilder
+                .defaultAdvisors(
+                        new SimpleLoggerAdvisor())
+                .build();
+    }
+
+    @Bean(name = "chatClientWithMemory")
+    public ChatClient chatClientWithMemory(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory) {
         return chatClientBuilder
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(chatMemory),
