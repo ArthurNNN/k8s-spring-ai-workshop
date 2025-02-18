@@ -18,22 +18,22 @@ public class IngestionService implements CommandLineRunner {
     private final VectorStore vectorStore;
     private final TextSplitter textSplitter;
     private final ResourcePatternResolver resourcePatternResolver;
-    private final String resourceLocation;
+    private final String resourcesLocation;
 
     public IngestionService(VectorStore vectorStore, TextSplitter textSplitter,
                             ResourcePatternResolver resourcePatternResolver,
-                            @Value("classpath:/documents/*.pdf") String resourceLocation) {
+                            @Value("classpath:/documents/*.pdf") String resourcesLocation) {
         this.vectorStore = vectorStore;
         this.textSplitter = textSplitter;
         this.resourcePatternResolver = resourcePatternResolver;
-        this.resourceLocation = resourceLocation;
+        this.resourcesLocation = resourcesLocation;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Ingesting data from resources: {}", resourceLocation);
+        log.info("Ingesting data from resources: {}", resourcesLocation);
 
-        Resource[] resources = resourcePatternResolver.getResources(resourceLocation);
+        Resource[] resources = resourcePatternResolver.getResources(resourcesLocation);
 
         for (Resource resource : resources) {
             log.info("Reading file: {}", resource.getFilename());

@@ -2,11 +2,14 @@ package workshop.springai.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,6 +39,20 @@ public class ChatClientConfig {
         return chatClientBuilder
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(chatMemory),
+                        new SimpleLoggerAdvisor())
+                .build();
+    }
+
+    @Bean(name = "chatClientWithRag")
+    public ChatClient chatClientWithRag(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+        SearchRequest searchRequest = SearchRequest.builder()
+                .similarityThreshold(0.8)
+                .topK(2)
+                .build();
+
+        return chatClientBuilder
+                .defaultAdvisors(
+                        new QuestionAnswerAdvisor(vectorStore, searchRequest),
                         new SimpleLoggerAdvisor())
                 .build();
     }
