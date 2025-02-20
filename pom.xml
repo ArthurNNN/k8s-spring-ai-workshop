@@ -150,7 +150,15 @@
 				</dependency>
 			</dependencies>
 		</profile>
-
+		<profile>
+			<id>azure-openAI</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.ai</groupId>
+					<artifactId>spring-ai-azure-openai-spring-boot-starter</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 
 </project>

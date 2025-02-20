@@ -8,6 +8,7 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,9 +45,14 @@ public class ChatClientConfig {
 
     @Bean(name = "chatClientWithRag")
     public ChatClient chatClientWithRag(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+        var searchRequest = SearchRequest.builder()
+                .similarityThreshold(1)
+                .topK(1)
+                .build();
+
         return chatClientBuilder
                 .defaultAdvisors(
-                        new QuestionAnswerAdvisor(vectorStore),
+                        new QuestionAnswerAdvisor(vectorStore, searchRequest),
                         new SimpleLoggerAdvisor())
                 .build();
     }
