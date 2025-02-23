@@ -53,7 +53,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-tika-document-reader</artifactId>
+			<artifactId>spring-ai-pdf-document-reader</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>

@@ -1,7 +1,7 @@
 package workshop.springai.rag;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ai.reader.tika.TikaDocumentReader;
+import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
-
 
 
 @Slf4j
@@ -38,9 +37,8 @@ public class IngestionService implements CommandLineRunner {
 
         for (Resource resource : resources) {
             log.info("Reading file: {}", resource.getFilename());
-            TikaDocumentReader textReader = new TikaDocumentReader(resource);
-            var documents = textSplitter.apply(textReader.get());
-            vectorStore.accept(documents);
+            var pdfDocumentReader = new PagePdfDocumentReader(resource);
+            vectorStore.accept(textSplitter.apply(pdfDocumentReader.get()));
         }
 
         log.info("VectorStore Loaded with data!");
