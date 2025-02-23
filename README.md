@@ -1,6 +1,22 @@
-# talent-arena
 
-## Exercise 4 - image recognition
+<img src="images/img.png"  alt="Talent Arena" height="173"/>
+<img src="images/bcn-jug.png" alt="Barcelona JUG" height="173"/>
+
+# Workshop: Enhancing Java Applications with Spring AI
+
+## Exercise 1—chatbot
+
+TBD
+
+## Exercise 2—chatbot with memory
+
+TBD
+
+## Exercise 3—chatbot with RAG
+
+TBD
+
+## Exercise 4—image recognition
 
 1. Create an [OpenAI key](https://platform.openai.com/settings/organization/api-keys) in your account and add it to the `.env.local` file.
 2. Create a controller `ImageRecognitionController` with the following methods:
