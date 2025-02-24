@@ -20,7 +20,8 @@ This link will create a project with the following dependencies:
   * Spring AI OpenAI
   * Spring Boot Actuator
   * Lombok
-and the following properties:
+
+And the following configuration:
   * Java 21
   * Spring Boot 3.4.3
   * Spring AI 1.0.0-M6
