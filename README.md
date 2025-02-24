@@ -106,15 +106,18 @@ curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is
 ```shell
 curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
 ```
-13. [Optional - running with Ollama] Install [Ollama](https://ollama.com/download) in your local machine.
+<details>
+<summary>Optional - running the Application with Ollama and DeepSeek</summary>
 
-14. [Optional - running with Ollama] Add the following properties inside the `application.properties` file to use Ollama with the DeepSeek model:
+13. Install [Ollama](https://ollama.com/download) in your local machine.
+
+14. Add the following properties inside the `application.properties` file to use Ollama with the DeepSeek model:
 ```properties
 # Properties for the Ollama API
 spring.ai.ollama.init.pull-model-strategy=always
 spring.ai.ollama.chat.options.model=deepseek-r1:1.5b
 ```
-15. [Optional - running with Ollama] Change the `pom.xml` to add the new `spring-ai-ollama-spring-boot-starter` in an 
+15. Change the `pom.xml` to add the new `spring-ai-ollama-spring-boot-starter` in an 
 specific maven profile and the `spring-ai-openai-spring-boot-starter` as default maven profile file,
 the final version of this file will be with to the following content:
 ```xml
@@ -241,23 +244,23 @@ the final version of this file will be with to the following content:
 </project>
 
 ```
-16. [Optional - running with Ollama] Build the project using Maven with the Ollama profile:
+16. Build the project using Maven with the Ollama profile:
 ```shell
 mvn clean install -Pollama
 ```
-17. [Optional - running with Ollama] Run the project using Maven with the Ollama profile:
+17. Run the project using Maven with the Ollama profile:
 ```shell
 mvn spring-boot:run -Pollama
 ```
-18. [Optional - running with Ollama] Open a new terminal and test the chatbot using curl:
+18. Open a new terminal and test the chatbot using curl:
 ```shell
 curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
 ```
-19. [Optional - running with Ollama] Open a new terminal and test the chatbot using curl, asking about the previous answer:
+19. Open a new terminal and test the chatbot using curl, asking about the previous answer:
 ```shell
 curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
 ```
-
+</details>
 
 ## Exercise 2—chatbot with memory
 
