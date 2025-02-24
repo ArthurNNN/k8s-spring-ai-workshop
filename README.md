@@ -9,7 +9,7 @@
 - Maven 3.6+
 - docker
 - curl or any other REST client
-- An OpenAI API key
+- An OpenAI API key or Ollama installed locally
 
 
 ## Exercise 1—chatbot
@@ -102,6 +102,162 @@ mvn spring-boot:run
 ```shell
 curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
 ```
+12. Open a new terminal and test the chatbot using curl, asking about the previous answer:
+```shell
+curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
+```
+13. [Optional - running with Ollama] Install [Ollama](https://ollama.com/download) in your local machine.
+
+14. [Optional - running with Ollama] Add the following properties inside the `application.properties` file to use Ollama with the DeepSeek model:
+```properties
+# Properties for the Ollama API
+spring.ai.ollama.init.pull-model-strategy=always
+spring.ai.ollama.chat.options.model=deepseek-r1:1.5b
+```
+15. [Optional - running with Ollama] Change the `pom.xml` to add the new `spring-ai-ollama-spring-boot-starter` in an 
+specific maven profile and the `spring-ai-openai-spring-boot-starter` as default maven profile file,
+the final version of this file will be with to the following content:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>workshop.springai</groupId>
+    <artifactId>talent-arena</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>talent-arena</name>
+    <description>Demo project for Spring Boot</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    <properties>
+        <java.version>21</java.version>
+        <spring-ai.version>1.0.0-M6</spring-ai.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>openai</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.ai</groupId>
+                    <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>ollama</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.ai</groupId>
+                    <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
+
+</project>
+
+```
+16. [Optional - running with Ollama] Build the project using Maven with the Ollama profile:
+```shell
+mvn clean install -Pollama
+```
+17. [Optional - running with Ollama] Run the project using Maven with the Ollama profile:
+```shell
+mvn spring-boot:run -Pollama
+```
+18. [Optional - running with Ollama] Open a new terminal and test the chatbot using curl:
+```shell
+curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
+```
+19. [Optional - running with Ollama] Open a new terminal and test the chatbot using curl, asking about the previous answer:
+```shell
+curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
+```
+
 
 ## Exercise 2—chatbot with memory
 
