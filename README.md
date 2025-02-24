@@ -4,6 +4,23 @@
 
 # Workshop: Enhancing Java Applications with Spring AI
 
+Run integration test with OpenAI as default provider with
+
+```shell
+mvn spring-boot:test-run
+```
+```shell
+mvn verify
+```
+Enable Ollama by using the `ollama` profile:
+
+```shell
+mvn spring-boot:test-run -Pollama
+```
+```shell
+mvn verify -Pollama
+```
+
 ## Exercise 1—chatbot
 
 TBD
