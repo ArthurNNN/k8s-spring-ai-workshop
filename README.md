@@ -15,7 +15,7 @@
 ## Exercise 1—chatbot
 
 1. Create your spring boot application using the [Spring Initializr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.4.3&packaging=jar&jvmVersion=21&groupId=workshop.springai&artifactId=talent-arena&name=talent-arena&description=Demo%20project%20for%20Spring%20Boot&packageName=workshop.springai&dependencies=web,spring-ai-openai,actuator,lombok).
-the previous link will create a project with the following dependencies:
+This link will create a project with the following dependencies:
   * Spring Web
   * Spring AI OpenAI
   * Spring Boot Actuator
