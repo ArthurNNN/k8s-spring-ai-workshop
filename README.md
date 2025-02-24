@@ -15,6 +15,16 @@
 ## Exercise 1—chatbot
 
 1. Create your spring boot application using the [Spring Initializr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.4.3&packaging=jar&jvmVersion=21&groupId=workshop.springai&artifactId=talent-arena&name=talent-arena&description=Demo%20project%20for%20Spring%20Boot&packageName=workshop.springai&dependencies=web,spring-ai-openai,actuator,lombok).
+the previous link will create a project with the following dependencies:
+  * Spring Web
+  * Spring AI OpenAI
+  * Spring Boot Actuator
+  * Lombok
+and the following properties:
+  * Java 21
+  * Spring Boot 3.4.3
+  * Spring AI 1.0.0-M6
+  * Maven
 2. Click on the `Generate` button to download the project.
 3. Unzip the project and open it in your favorite IDE.
 4. Create a `.env.local` file in the root of the project with the following content:
