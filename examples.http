@@ -16,6 +16,19 @@ Content-Type: text/plain
 "Could you repeat the previous answer ?"
 
 
+### Exercise 2—chatbot with memory - part1
+
+GET http://localhost:8080/chat/memory
+Content-Type: text/plain
+
+"What is the capital of Brazil ?"
+
+### Exercise 2—chatbot with memory - part2
+GET http://localhost:8080/chat/memory
+Content-Type: text/plain
+
+"Could you repeat the previous answer ?"
+
 ### Exercise 4—image recognition
 POST http://localhost:8080/image/recognition
 Content-Type: multipart/form-data; boundary=WebAppBoundary

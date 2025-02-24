@@ -335,11 +335,11 @@ mvn spring-boot:run
 ```
 5. Open a new terminal and test the chatbot using curl:
 ```shell
-curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
+curl -X GET http://localhost:8080/chat/memory -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
 ```
 6. Open a new terminal and test the chatbot using curl, asking about the previous answer:
 ```shell
-curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
+curl -X GET http://localhost:8080/chat/memory -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
 ```
 <details>
 <summary>Optional - running the Application with Ollama and DeepSeek</summary>
@@ -490,11 +490,11 @@ mvn spring-boot:run -Pollama
 ```
 12. Open a new terminal and test the chatbot using curl:
 ```shell
-curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
+curl -X GET http://localhost:8080/chat/memory -H "Content-Type: text/plain" -d "What is the capital of Brazil ?"
 ```
 13. Open a new terminal and test the chatbot using curl, asking about the previous answer:
 ```shell
-curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
+curl -X GET http://localhost:8080/chat/memory -H "Content-Type: text/plain" -d "Could you repeat the previous answer ?"
 ```
 </details>
 
