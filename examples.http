@@ -1,0 +1,18 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### Exercise 1—chatbot - part1
+
+GET http://localhost:8080/chat
+Content-Type: text/plain
+
+"What is the capital of Brazil ?"
+
+### Exercise 1—chatbot - part2
+GET http://localhost:8080/chat
+Content-Type: text/plain
+
+"Could you repeat the previous answer ?"
+
+
