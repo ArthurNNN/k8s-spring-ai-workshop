@@ -128,8 +128,8 @@ curl -X GET http://localhost:8080/chat -H "Content-Type: text/plain" -d "Could y
 spring.ai.ollama.init.pull-model-strategy=always
 spring.ai.ollama.chat.options.model=deepseek-r1:1.5b
 ```
-15. Change the `pom.xml` to add the new `spring-ai-ollama-spring-boot-starter` in a 
-specific maven profile and the `spring-ai-openai-spring-boot-starter` as a default maven profile.
+15. Change the `pom.xml` to add the new dependency `spring-ai-ollama-spring-boot-starter` in a 
+specific maven profile and the `spring-ai-openai-spring-boot-starter` in a default maven profile.
 
 The final version of the `pom.xml` should look like this:
 ```xml
