@@ -4,6 +4,13 @@ GET https://examples.http-client.intellij.net/get
 
 ###
 
+GET http://localhost:8080/chat
+Content-Type: text/plain
+
+"What is the capital of Brazil ?"
+
+###
+
 POST http://localhost:8080/image/recognition
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
