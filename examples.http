@@ -29,6 +29,14 @@ Content-Type: text/plain
 
 "Could you repeat the previous answer ?"
 
+
+### Exercise 3—chatbot with RAG
+GET http://localhost:8080/chat/rag/talent-arena/
+Content-Type: text/plain
+
+"what are the Workshops related to SYSTEM DESIGN in Talent Arena 2025 ?"
+
+
 ### Exercise 4—image recognition
 POST http://localhost:8080/image/recognition
 Content-Type: multipart/form-data; boundary=WebAppBoundary
