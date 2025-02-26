@@ -2,7 +2,10 @@ package workshop.springai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import workshop.springai.rag.TalentArenaProperties;
 
+@EnableConfigurationProperties({TalentArenaProperties.class})
 @SpringBootApplication
 public class TalentArenaApplication {
 

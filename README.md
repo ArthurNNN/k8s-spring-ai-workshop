@@ -651,7 +651,7 @@ mvn spring-boot:run
 ```
 10. Open a new terminal and test the chatbot using curl:
 ```shell
-curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "what are the Workshops related to SYSTEM DESIGN in Talent Arena 2025 ?"
+curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
 <details>
 <summary>Optional - running the Application with Ollama and DeepSeek</summary>
@@ -819,7 +819,7 @@ mvn spring-boot:run -Pollama
 ```
 16. Open a new terminal and test the chatbot using curl:
 ```shell
-curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "what are the Workshops related to SYSTEM DESIGN in Talent Arena 2025 ?"
+curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
 </details>
 <details>
@@ -921,7 +921,7 @@ mvn spring-boot:test-run
 ```
 23. Open a new terminal and test the chatbot using curl:
 ```shell
-curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "what are the Workshops related to SYSTEM DESIGN in Talent Arena 2025 ?"
+curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
 </details>
 

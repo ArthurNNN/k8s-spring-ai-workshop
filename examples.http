@@ -34,7 +34,7 @@ Content-Type: text/plain
 GET http://localhost:8080/chat/rag/talent-arena/
 Content-Type: text/plain
 
-"what are the Workshops related to SYSTEM DESIGN in Talent Arena 2025 ?"
+"What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 
 
 ### Exercise 4—image recognition
