@@ -2,8 +2,42 @@
 GET https://examples.http-client.intellij.net/get
     ?generated-in=IntelliJ IDEA
 
-###
+### Exercise 1—chatbot - part1
 
+GET http://localhost:8080/chat
+Content-Type: text/plain
+
+"What is the capital of Brazil ?"
+
+### Exercise 1—chatbot - part2
+GET http://localhost:8080/chat
+Content-Type: text/plain
+
+"Could you repeat the previous answer ?"
+
+
+### Exercise 2—chatbot with memory - part1
+
+GET http://localhost:8080/chat/memory
+Content-Type: text/plain
+
+"What is the capital of Brazil ?"
+
+### Exercise 2—chatbot with memory - part2
+GET http://localhost:8080/chat/memory
+Content-Type: text/plain
+
+"Could you repeat the previous answer ?"
+
+
+### Exercise 3—chatbot with RAG
+GET http://localhost:8080/chat/rag/talent-arena/
+Content-Type: text/plain
+
+"What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
+
+
+### Exercise 4—image recognition
 POST http://localhost:8080/image/recognition
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
