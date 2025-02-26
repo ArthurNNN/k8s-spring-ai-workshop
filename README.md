@@ -46,7 +46,7 @@ spring.ai.openai.chat.options.model=gpt-4o-mini
 
 logging.level.org.springframework.ai.chat.client.advisor=INFO
 ```
-7. Create a ChatClientConfig class with the following content:
+7. Create a `ChatClientConfig` class with the following content:
 ```java
 package workshop.springai.config;
 
@@ -68,7 +68,7 @@ public class ChatClientConfig {
     
 }
 ```
-8. Create a ChatController class with the following content:
+8. Create a `ChatController` class with the following content:
 ```java
 package workshop.springai.chat;
 
@@ -929,11 +929,69 @@ curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/
 
 1. Create an [OpenAI key](https://platform.openai.com/settings/organization/api-keys) in your account and add it to the `.env.local` file.
 2. Create a controller `ImageRecognitionController` with the following methods:
-  * ProcessImage, receiving a multipart file as a `@RequestParam` and returning a `ResponseEntity<String>` with the image description.
+  * `processImage`, receiving a multipart file as a `@RequestParam` and returning a `ResponseEntity<String>` with the image description.
+
+<details>
+<summary>ImageRecognition controller — Code example</summary>
+
+### ImageRecognition controller
+
+```java
+    @PostMapping(value = "/image/recognition", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> processImage(@RequestParam("file") MultipartFile file) {
+        log.info("Image processing: process started");
+        try {
+            return ResponseEntity.ok(imageRecognitionService.processImage(file));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Image processing: process failed" + e.getMessage());
+        }
+    }
+```
+</details>
+
 3. Create a service `ImageRecognitionService` with the following method:
-  * processImage, receiving a multipart file and returning a `String` with the image description.
+  * `processImage`, receiving a multipart file and returning a `String` with the image description.
   * Create a `Resource` from the input stream.
   * Convert the `Resource` to a `Media`.
   * The prompt needs to pass the image as part of the `UserMessage` media.
   * Include a `SystemMessage` giving instructions on thw answer format.
   * Pass the `UserMessage` and `SystemMessage` to the `chatClient` as part of the **messages** and return the string response.
+
+<details>
+<summary>ImageRecognition service — Code example</summary>
+
+### ImageRecognition service
+```java
+    public String processImage(MultipartFile file) throws IOException {
+        log.info("image recognition service started processing: {}", file.getOriginalFilename());
+
+        Resource image = new InputStreamResource(file.getInputStream());
+        log.info("image recognition service: {} file type", image.getFilename());
+        Media myMedia = new Media(MimeTypeUtils.IMAGE_JPEG, image);
+        Message userMessage = new UserMessage("What is this image?", List.of(myMedia));
+        Message systemMessage = new SystemMessage("Use the following format to answer the question: <image> <question> <answer>");
+        return chatClient.prompt().messages(List.of(userMessage, systemMessage)).call().content();
+
+    }
+```
+</details>
+4. Use your favorite HTTP client and make a POST request to the `/image/recognition` endpoint with a multipart file containing an image. The response should be a string with the image description.
+
+#### HTTP request
+```http request
+POST http://localhost:8080/image/recognition
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="image.jpg"
+
+< /Users/esriva00/Pictures/bzrYBxvm_400x400.jpg
+--WebAppBoundary--
+```
+
+#### curl
+```shell
+curl -X POST --location "http://localhost:8080/image/recognition" \
+    -H "Content-Type: multipart/form-data; boundary=WebAppBoundary" \
+    -F "file=@/Users/esriva00/Pictures/bzrYBxvm_400x400.jpg;filename=image.jpg;type=*/*"
+```
