@@ -1,4 +1,4 @@
-package workshop.springai.rag;
+package workshop.springai.config;
 
 public record Website(String url) {
 }

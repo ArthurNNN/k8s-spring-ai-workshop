@@ -535,15 +535,60 @@ services:
     labels:
       org.springframework.boot.service-connection: postgres
 ```
-3. Add the following properties inside the `application.properties` file to create the PG Vector Schema at initialization:
+3. Add the following properties inside the `application.properties` file, to create the PG Vector Schema at initialization 
+and the Talent Arena websites that will be used during the Ingestion process of the RAG:
 ```properties
 #PostgreSQL vector database properties
 spring.ai.vectorstore.pgvector.initialize-schema=true
-```
-4. Copy the following PDF files(related to the Talent Arena 2025) from this [link](https://github.com/k8s-spring-ai-workshop/talent-arena/tree/main/src/main/resources/documents) to 
-this folder(/src/main/resources/documents) in your project:
 
-5. Open the `ChatClientConfig` class and add the following bean methods:
+# Talent Arena properties
+talent-arena.websites.workshops=https://talentarena.tech/workshops-agenda/
+talent-arena.websites.talks=https://talentarena.tech/talks-agenda/
+talent-arena.websites.conference=https://talentarena.tech/conference-agenda/
+
+# Spring Boot docker-compose properties
+spring.docker.compose.stop.command=down
+```
+4. Create the following Configuration properties classes in the `workshop.springai.config` package:
+```java
+package workshop.springai.config;
+
+public record Website(String url) {
+}
+```
+```java
+package workshop.springai.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Map;
+
+@ConfigurationProperties("talent-arena")
+public record TalentArenaProperties(Map<String, Website> websites) {
+}
+```
+5. Add the following annotation `@EnableConfigurationProperties(TalentArenaProperties.class)` to the `TalentArenaApplication` class,
+the final version of the class should look like this:
+```java
+package workshop.springai;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import workshop.springai.config.TalentArenaProperties;
+
+@EnableConfigurationProperties({TalentArenaProperties.class})
+@SpringBootApplication
+public class TalentArenaApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(TalentArenaApplication.class, args);
+    }
+
+}
+```
+
+6. Open the `ChatClientConfig` class and add the following bean methods:
 ```java
     @Bean
     public TextSplitter textSplitter() {
@@ -559,7 +604,7 @@ this folder(/src/main/resources/documents) in your project:
                 .build();
     }
 ```
-6. Create a `IngestionService` class with the following content, to ingest the PDF files from the resources folder into the PG Vector Database:
+7. Create a `IngestionService` class with the following content, to ingest the PDF files from the resources folder into the PG Vector Database:
 ```java
 package workshop.springai.rag;
 
@@ -567,11 +612,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
+import workshop.springai.config.TalentArenaProperties;
 
 @Slf4j
 @Service
@@ -579,36 +622,32 @@ public class IngestionService implements CommandLineRunner {
 
     private final VectorStore vectorStore;
     private final TextSplitter textSplitter;
-    private final ResourcePatternResolver resourcePatternResolver;
-    private final String resourcesLocation;
+    private final TalentArenaProperties talentArenaProperties;
 
     public IngestionService(VectorStore vectorStore, TextSplitter textSplitter,
-                            ResourcePatternResolver resourcePatternResolver,
-                            @Value("classpath:/documents/*.pdf") String resourcesLocation) {
+                            TalentArenaProperties talentArenaProperties) {
         this.vectorStore = vectorStore;
         this.textSplitter = textSplitter;
-        this.resourcePatternResolver = resourcePatternResolver;
-        this.resourcesLocation = resourcesLocation;
+        this.talentArenaProperties = talentArenaProperties;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        log.info("Ingesting data from resources: {}", resourcesLocation);
+    public void run(String... args) {
+        log.info("Ingesting data for Talent Arena");
 
-        Resource[] resources = resourcePatternResolver.getResources(resourcesLocation);
-
-        for (Resource resource : resources) {
-            log.info("Reading file: {}", resource.getFilename());
-            TikaDocumentReader textReader = new TikaDocumentReader(resource);
+        talentArenaProperties.websites().forEach((key, website) -> {
+            log.info("Ingesting data for {} with the url {}", key, website.url());
+            TikaDocumentReader textReader = new TikaDocumentReader(website.url());
             var documents = textSplitter.apply(textReader.get());
             vectorStore.accept(documents);
-        }
+        });
 
         log.info("VectorStore Loaded with data!");
     }
 }
+
 ```
-7. Create a `RagController` class with the following content:
+8. Create a `RagController` class with the following content:
 ```java
 package workshop.springai.rag;
 
@@ -641,31 +680,31 @@ public class RagController {
 }
 
 ```
-8. Build the project using Maven:
+9. Build the project using Maven:
 ```shell
 mvn clean install
 ```
-9. Run the project using Maven:
+10. Run the project using Maven:
 ```shell
 mvn spring-boot:run
 ```
-10. Open a new terminal and test the chatbot using curl:
+11. Open a new terminal and test the chatbot using curl:
 ```shell
 curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
 <details>
 <summary>Optional - running the Application with Ollama and DeepSeek</summary>
 
-11. Install [Ollama](https://ollama.com/download) in your local machine.
+12. Install [Ollama](https://ollama.com/download) in your local machine.
 
-12. Add the following properties inside the `application.properties` file to use Ollama with the DeepSeek model:
+13. Add the following properties inside the `application.properties` file to use Ollama with the DeepSeek model:
 ```properties
 # Properties for the Ollama API
 spring.ai.ollama.init.pull-model-strategy=always
 spring.ai.ollama.init.embedding.additional-models=mxbai-embed-large
 spring.ai.ollama.chat.options.model=deepseek-r1:1.5b
 ```
-13. Change the `pom.xml` to add the new dependency `spring-ai-ollama-spring-boot-starter` in a
+14. Change the `pom.xml` to add the new dependency `spring-ai-ollama-spring-boot-starter` in a
    specific maven profile and the `spring-ai-openai-spring-boot-starter` in a default maven profile.
 
 The final version of the `pom.xml` should look like this:
@@ -809,23 +848,23 @@ The final version of the `pom.xml` should look like this:
 </project>
 
 ```
-14. Build the project using Maven with the Ollama profile:
+15. Build the project using Maven with the Ollama profile:
 ```shell
 mvn clean install -Pollama
 ```
-15. Run the project using Maven with the Ollama profile:
+16. Run the project using Maven with the Ollama profile:
 ```shell
 mvn spring-boot:run -Pollama
 ```
-16. Open a new terminal and test the chatbot using curl:
+17. Open a new terminal and test the chatbot using curl:
 ```shell
 curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
 </details>
 <details>
-<summary>Optional - starting the PGVector database with testContainer instead of docker-compose</summary>
+<summary>Optional - Start the PGVector database with testContainer instead of docker-compose</summary>
 
-17. Open the `pom.xml` and add the following dependencies:
+18. Open the `pom.xml` and add the following dependencies:
 ```xml
 <dependencies>    
     <!-- TestContainers dependencies -->
@@ -851,7 +890,7 @@ curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/
     </dependency>
 </dependencies>
 ```
-18. Create a `TestContainersConfiguration` class with the following content, in the `src/test/java` folder in the `workshop.springai.config` package:
+19. Create a `TestContainersConfiguration` class with the following content, in the `src/test/java` folder in the `workshop.springai.config` package:
 ```java
 package workshop.springai.config;
 
@@ -873,7 +912,8 @@ public class TestContainersConfiguration {
 }
 
 ```
-19. Create a `TestTalentArenaApplication` class with the following content, in the `src/test/java` folder in the `workshop.springai` package:
+
+20. Create a `TestTalentArenaApplication` class with the following content, in the `src/test/java` folder in the `workshop.springai` package:
 ```java
 package workshop.springai;
 
@@ -890,7 +930,7 @@ public class TestTalentArenaApplication {
 
 }
 ```
-20. Add the following annotation `@Import(TestContainersConfiguration.class)` to the `TalentArenaApplicationTests` class, the final version of the class should look like this:
+21. Add the following annotation `@Import(TestContainersConfiguration.class)` to the `TalentArenaApplicationTests` class, the final version of the class should look like this:
 ```java
 package workshop.springai;
 
@@ -910,16 +950,15 @@ class TalentArenaApplicationTests {
 }
 
 ```
-
-21. Build the project using Maven:
+22. Build the project using Maven:
 ```shell
 mvn clean install
 ```
-22. Run the project using Maven, but this time with test-run:
+23. Run the project using Maven, but this time with test-run:
 ```shell
 mvn spring-boot:test-run
 ```
-23. Open a new terminal and test the chatbot using curl:
+24. Open a new terminal and test the chatbot using curl:
 ```shell
 curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```

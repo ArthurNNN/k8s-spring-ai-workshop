@@ -6,6 +6,7 @@ import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
+import workshop.springai.config.TalentArenaProperties;
 
 @Slf4j
 @Service
@@ -23,7 +24,7 @@ public class IngestionService implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Ingesting data for Talent Arena");
 
         talentArenaProperties.websites().forEach((key, website) -> {

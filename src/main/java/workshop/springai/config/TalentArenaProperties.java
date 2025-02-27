@@ -1,4 +1,4 @@
-package workshop.springai.rag;
+package workshop.springai.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
