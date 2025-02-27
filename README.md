@@ -5,11 +5,11 @@
 # Workshop: Enhancing Java Applications with Spring AI
 
 ## Project Requirements
-- Java 21+
-- Maven 3.6+
-- docker
-- curl or any other REST client
-- An OpenAI API key or Ollama installed locally
+- [Java](https://sdkman.io/) 21+
+- [Maven](https://maven.apache.org/download.cgi) 3.6+
+- [Docker](https://www.docker.com/)
+- [curl](https://curl.se/) or any other REST client ([Postman](https://www.postman.com/), [HTTPie](https://httpie.io/), [VS code Rest client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), [Jetbrains Http Client](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html))
+- An [OpenAI API](https://platform.openai.com/docs/overview) key or [Ollama](https://ollama.com/) installed locally
 
 
 ## Exercise 1—chatbot
@@ -46,7 +46,7 @@ spring.ai.openai.chat.options.model=gpt-4o-mini
 
 logging.level.org.springframework.ai.chat.client.advisor=INFO
 ```
-7. Create a ChatClientConfig class with the following content:
+7. Create a `ChatClientConfig` class with the following content:
 ```java
 package workshop.springai.config;
 
@@ -68,7 +68,7 @@ public class ChatClientConfig {
     
 }
 ```
-8. Create a ChatController class with the following content:
+8. Create a `ChatController` class with the following content:
 ```java
 package workshop.springai.chat;
 
