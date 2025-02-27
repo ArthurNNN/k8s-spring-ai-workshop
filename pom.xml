@@ -18,14 +18,7 @@
 		<license/>
 	</licenses>
 	<developers>
-		<developer>
-			<name>Bruno Romao Antunes</name>
-			<email>bantunes82@gmail.com</email>
-		</developer>
-		<developer>
-			<name>Anyul Rivas</name>
-			<email>anyulled@gmail.com</email>
-		</developer>
+		<developer/>
 	</developers>
 	<scm>
 		<connection/>
@@ -46,14 +39,52 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- Spring AI RAG dependency - to process PDFs, DOCs, HTMLs -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-tika-document-reader</artifactId>
+		</dependency>
+		<!-- Spring AI RAG dependency - to work with PG Vector Database -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-pgvector-store-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- Dependency to start-up the PG Vector Database using docker-compose -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-docker-compose</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- TestContainers dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-spring-boot-testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

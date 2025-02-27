@@ -27,3 +27,10 @@ GET http://localhost:8080/chat/memory
 Content-Type: text/plain
 
 "Could you repeat the previous answer ?"
+
+
+### Exercise 3—chatbot with RAG
+GET http://localhost:8080/chat/rag/talent-arena/
+Content-Type: text/plain
+
+"What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
