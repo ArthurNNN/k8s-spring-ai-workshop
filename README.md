@@ -604,7 +604,7 @@ public class TalentArenaApplication {
                 .build();
     }
 ```
-7. Create a `IngestionService` class with the following content, to ingest the PDF files from the resources folder into the PG Vector Database:
+7. Create a `IngestionService` class with the following content, to ingest the content of the Talent-Arena websites into the PG Vector Database:
 ```java
 package workshop.springai.rag;
 
@@ -948,17 +948,22 @@ class TalentArenaApplicationTests {
     }
 
 }
-
 ```
-22. Build the project using Maven:
+22. Change the value of the `spring.docker.compose.skip.in-tests` property inside the `application.properties`
+    file to `true`, with this configuration the docker-compose will not be started during the tests:
+```properties
+# Spring Boot docker-compose properties
+spring.docker.compose.skip.in-tests=true
+```
+23. Build the project using Maven:
 ```shell
 mvn clean install
 ```
-23. Run the project using Maven, but this time with test-run:
+24. Run the project using Maven, but this time with test-run:
 ```shell
 mvn spring-boot:test-run
 ```
-24. Open a new terminal and test the chatbot using curl:
+25. Open a new terminal and test the chatbot using curl:
 ```shell
 curl -X GET http://localhost:8080/chat/rag/talent-arena/ -H "Content-Type: text/plain" -d "What are the content related to Artificial Intelligence in Talent Arena 2025 ?"
 ```
