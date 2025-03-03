@@ -30,10 +30,13 @@ public class ImageRecognitionService {
         log.info("image recognition service started processing: {}", file.getOriginalFilename());
 
         Resource image = new InputStreamResource(file.getInputStream());
-        log.info("image recognition service: {} file type", image.getFilename());
-        Media myMedia = new Media(MimeTypeUtils.IMAGE_JPEG, image);
-        Message userMessage = new UserMessage("What is this image?", List.of(myMedia));
-        Message systemMessage = new SystemMessage("Use the following format to answer the question: <image> <question> <answer>");
+        log.info("image recognition service: {} file", image.getFilename());
+        Media myMedia = new Media(MimeTypeUtils.IMAGE_PNG, image);
+        Message userMessage = new UserMessage("""
+                What is this image? \
+                Moreover, generate a list of a maximum of 70 comma-separated tags for categorizing it on FLickr. \
+                You must use double quotes only if the tag has more than one word""", List.of(myMedia));
+        Message systemMessage = new SystemMessage("Use the following format to answer the question: <answer> description. Tags: images tags");
         return chatClient.prompt().messages(List.of(userMessage, systemMessage)).call().content();
 
     }

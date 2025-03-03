@@ -49,3 +49,23 @@ Content-Disposition: form-data; name="file"; filename="bcn-jug.png"
 
 ###
 
+POST http://localhost:8080/image/recognition
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="bcn-jug.png"
+
+< images/bcn-jug.png
+--WebAppBoundary--
+
+###
+
+POST http://localhost:8080/image/recognition
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="barcelona-skyline.png"
+
+< images/barcelona-skyline.png
+--WebAppBoundary--
+
