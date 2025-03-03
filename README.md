@@ -1076,18 +1076,18 @@ public class ImageRecognitionController {
 #### HTTP request
 ```http request
 POST http://localhost:8080/image/recognition
-Content-Type: multipart/form-data; boundary=WebAppBoundary
+Content-Type: multipart/form-data;boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="image.jpg"
+Content-Disposition: form-data; name="file"; filename="bcn-jug.png"
 
-< /Users/esriva00/Pictures/bzrYBxvm_400x400.jpg
---WebAppBoundary--
+< images/bcn-jug.png
+--WebAppBoundary--  
 ```
 
 #### curl
 ```shell
-curl -X POST --location "http://localhost:8080/image/recognition" \
-    -H "Content-Type: multipart/form-data; boundary=WebAppBoundary" \
-    -F "file=@/Users/esriva00/Pictures/bzrYBxvm_400x400.jpg;filename=image.jpg;type=*/*"
+curl -X POST http://localhost:8080/image/recognition \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@images/bcn-jug.png"
 ```
