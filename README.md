@@ -548,6 +548,7 @@ talent-arena.websites.conference=https://talentarena.tech/conference-agenda/
 
 # Spring Boot docker-compose properties
 spring.docker.compose.stop.command=down
+spring.docker.compose.skip.in-tests=false
 ```
 4. Create the following Configuration properties classes in the `workshop.springai.config` package:
 ```java
