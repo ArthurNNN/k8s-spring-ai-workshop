@@ -187,6 +187,12 @@ public class RagController {
         log.info("Chat Rag with message: {}", message);
 
         return chatClient.prompt()
+                .system("""
+                        You are a talent arena assistant.
+                        You will only reply queries about this event, and reply in English.
+                        Your tone should be enthusiastic and positive.
+                        in case you don't know the answer, invite the user to visit the event page https://talentarena.tech.
+                        """)
                 .user(message)
                 .call()
                 .content();
