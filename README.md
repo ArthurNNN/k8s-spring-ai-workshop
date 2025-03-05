@@ -112,9 +112,9 @@ public class ImageRecognitionController {
 }
 ```
 </details>
+3. Create a directory of `images` at the project's root and copy these [images](https://github.com/k8s-spring-ai-workshop/talent-arena/tree/exercise4-image-recognition/images) there.
 
-
-3. Use your favorite HTTP client and make a POST request to the `/image/recognition` endpoint with a multipart file containing an image. The response should be a string with the image description.
+4. Use your favorite HTTP client and make a POST request to the `/image/recognition` endpoint with a multipart file containing an image. The response should be a string with the image description.
 
 #### HTTP request
 ```http request
