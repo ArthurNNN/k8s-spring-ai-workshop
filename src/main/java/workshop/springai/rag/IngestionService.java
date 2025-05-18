@@ -27,12 +27,14 @@ public class IngestionService implements CommandLineRunner {
     public void run(String... args) {
         log.info("Ingesting data for Talent Arena");
 
-        talentArenaProperties.websites().forEach((key, website) -> {
-            log.info("Ingesting data for {} with the url {}", key, website.url());
-            TikaDocumentReader textReader = new TikaDocumentReader(website.url());
-            var documents = textSplitter.apply(textReader.get());
-            vectorStore.accept(documents);
-        });
+        if (talentArenaProperties.reprocessByStartup()) {
+            talentArenaProperties.websites().forEach((key, website) -> {
+                log.info("Ingesting data for {} with the url {}", key, website.url());
+                TikaDocumentReader textReader = new TikaDocumentReader(website.url());
+                var documents = textSplitter.apply(textReader.get());
+                vectorStore.accept(documents);
+            });
+        }
 
         log.info("VectorStore Loaded with data!");
     }

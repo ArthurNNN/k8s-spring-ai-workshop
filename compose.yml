@@ -2,7 +2,7 @@ services:
   database:
     image: 'pgvector/pgvector:pg16'
     ports:
-      - '5432'
+      - '5432:5432'  # Host:Container port binding
     environment:
       - 'POSTGRES_USER=myuser'
       - 'POSTGRES_DB=mydatabase'
